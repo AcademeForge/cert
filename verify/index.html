@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AcademeForge — Verification Portal</title>
+<title>AcademeForge — Certificate Verification</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -39,88 +39,37 @@ body {
   font-family: var(--ff); background: var(--bg); color: var(--t-1);
   min-height: 100dvh; display: flex; flex-direction: column; align-items: center; padding: 20px 16px;
 }
-.wrap { width: 100%; max-width: 500px; margin: auto; display: flex; flex-direction: column; gap: 16px; }
+.wrap { width: 100%; max-width: 500px; margin: auto; }
+.card { background: var(--surf); border: 1px solid var(--bdr); border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,.05); }
 
-header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--bdr); }
-.logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
-.badge { font-size: 0.65rem; font-weight: 700; padding: 4px 8px; border-radius: 99px; background: rgba(16,217,138,.15); color: var(--suc); text-transform: uppercase; }
-
-.card { background: var(--surf); border: 1px solid var(--bdr); border-radius: 16px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,.05); }
-
-/* Input Elements */
-#inputCard { display: block; }
-#inputCard.qr-hidden { display: none; }
-.input-grp { display: flex; gap: 8px; margin-top: 6px; }
-input {
-  flex: 1; height: 46px; background: var(--surf-2); border: 1px solid var(--bdr); border-radius: 10px;
-  padding: 0 12px; font-family: var(--ff-m); color: var(--t-1); font-size: 0.9rem; text-transform: uppercase;
-}
-input::placeholder { text-transform: none; font-family: var(--ff); color: var(--t-3); }
-input:focus { border-color: var(--pri); outline: none; }
-button {
-  height: 46px; background: var(--pri); color: #fff; border: none; border-radius: 10px;
-  padding: 0 16px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: opacity 0.2s;
-}
-button:hover { opacity: 0.9; }
-button:disabled { opacity: 0.35; cursor: not-allowed; }
-
-/* Status Cards */
-.state { display: none; text-align: center; padding: 30px 10px; }
+/* Status States */
+.state { display: none; text-align: center; }
 .state.show { display: block; }
-.spin { width: 32px; height: 32px; border: 3px solid var(--bdr); border-top-color: var(--pri); border-radius: 50%; animation: spin .6s linear infinite; margin: 0 auto 12px; }
+.spin { width: 40px; height: 40px; border: 4px solid var(--bdr); border-top-color: var(--pri); border-radius: 50%; animation: spin .6s linear infinite; margin: 0 auto 16px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* Success Result Styling */
 .status-banner { display: flex; align-items: center; gap: 14px; padding-bottom: 16px; border-bottom: 1px solid var(--bdr); margin-bottom: 16px; }
-.status-icon { font-size: 2.2rem; filter: drop-shadow(0 2px 8px rgba(16,217,138,0.25)); }
-.status-title { font-weight: 700; font-size: 1.15rem; color: var(--suc); letter-spacing: -0.01em; }
-.status-id { font-family: var(--ff-m); font-size: 0.75rem; color: var(--t-2); background: var(--surf-2); border: 1px solid var(--bdr); padding: 3px 8px; border-radius: 6px; margin-top: 4px; display: inline-block; }
+.status-icon { font-size: 2.5rem; filter: drop-shadow(0 2px 8px rgba(16,217,138,0.25)); }
+.status-title { font-weight: 700; font-size: 1.2rem; color: var(--suc); }
+.status-id { font-family: var(--ff-m); font-size: 0.8rem; color: var(--t-2); background: var(--surf-2); border: 1px solid var(--bdr); padding: 4px 10px; border-radius: 6px; margin-top: 4px; display: inline-block; }
 
-/* Data Grid */
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-.cell { background: var(--surf-2); border: 1px solid var(--bdr); border-radius: 8px; padding: 10px 12px; }
+.cell { background: var(--surf-2); border: 1px solid var(--bdr); border-radius: 8px; padding: 12px; }
 .cell-val { font-weight: 600; font-size: 0.85rem; color: var(--t-1); word-break: break-word; }
-.cell-lbl { font-size: 0.65rem; color: var(--t-3); text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+.cell-lbl { font-size: 0.6rem; color: var(--t-3); text-transform: uppercase; font-weight: 700; margin-top: 4px; }
 .full-width { grid-column: span 2; }
-.highlight-cell { border-color: rgba(16,217,138,0.2); background: rgba(16,217,138,0.02); }
+.highlight { border-color: rgba(16,217,138,0.2); background: rgba(16,217,138,0.03); }
 
-.desc { background: var(--surf-2); border: 1px solid var(--bdr); border-radius: 8px; padding: 12px; font-size: 0.8rem; color: var(--t-2); line-height: 1.5; margin-bottom: 16px; }
-.btn-alt { background: var(--surf-2); color: var(--t-1); border: 1px solid var(--bdr); width: 100%; margin-top: 8px; font-weight: 600; }
-
-footer { text-align: center; font-size: 0.7rem; color: var(--t-3); padding-top: 16px; }
-footer a { color: var(--pri); text-decoration: none; }
+footer { text-align: center; font-size: 0.7rem; color: var(--t-3); margin-top: 24px; }
 </style>
 </head>
 <body>
 
 <div class="wrap">
-  <header>
-    <div class="logo">AcademeForge</div>
-    <div class="badge">Secure Verification</div>
-  </header>
-
-  <div class="card" id="inputCard">
-    <div class="input-grp">
-      <input type="text" id="certInput" placeholder="Enter Certificate ID" autocomplete="off" spellcheck="false" oninput="onInput()" onkeydown="if(event.key==='Enter')verify()">
-      <button id="verifyBtn" onclick="verify()" disabled>Verify</button>
-    </div>
-  </div>
-
-  <div class="card state" id="loadingCard">
+  <div class="card state show" id="loadingCard">
     <div class="spin"></div>
-    <div style="font-size:0.9rem; color:var(--t-2)">Validating credential database...</div>
-  </div>
-
-  <div class="card state" id="notFoundCard">
-    <div style="font-size: 2.5rem; margin-bottom: 8px;">🚫</div>
-    <div style="font-weight:700; font-size:1.1rem; color:var(--dan); margin-bottom: 4px;">Invalid Certificate</div>
-    <div style="font-size:0.8rem; color:var(--t-2); line-height:1.4; max-width:320px; margin:0 auto;" id="nfMsg">No active records match this ID.</div>
-    <button class="btn-alt" style="margin-top:20px;" onclick="forceShowInput()">Verify Another ID</button>
-  </div>
-
-  <div class="card state" id="errorCard">
-    <div style="font-size: 2rem; margin-bottom: 8px;">⚠️</div>
-    <div style="font-weight:700; font-size:0.95rem; margin-bottom: 12px;">Network Error</div>
-    <button class="btn-alt" style="margin:0; height:38px;" onclick="verify()">Retry Connection</button>
+    <div style="font-size:0.9rem; color:var(--t-2)">Authenticating Certificate...</div>
   </div>
 
   <div class="card state" id="resultCard" style="text-align: left;">
@@ -131,47 +80,27 @@ footer a { color: var(--pri); text-decoration: none; }
         <div class="status-id" id="resId">-</div>
       </div>
     </div>
-
     <div class="grid" id="detailGrid"></div>
-    <div class="desc" id="descBlock" style="display: none;"></div>
-
-    <button class="btn-alt" onclick="copyId()" id="copyBtn">Copy Certificate ID</button>
-    <button class="btn-alt" onclick="forceShowInput()" id="manualBtn" style="display:none;">Verify Another ID</button>
+    <div style="font-size: 0.7rem; color: var(--t-3); text-align: center; margin-top: 10px;">
+      AcademeForge Secure Verification
+    </div>
   </div>
 
-  <footer>
-    Verification Portal &copy; 2026 <a href="https://academeforge.in">AcademeForge</a>
-  </footer>
+  <footer>&copy; 2026 AcademeForge</footer>
 </div>
 
 <script>
 const API_URL = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/af-certificate-api";
-let isQrAccess = false;
 
-function onInput() {
-  document.getElementById('verifyBtn').disabled = document.getElementById('certInput').value.trim().length < 2;
-}
-
-function clearStates() {
-  ['loadingCard', 'notFoundCard', 'errorCard', 'resultCard'].forEach(id => document.getElementById(id).classList.remove('show'));
-}
-
-function forceShowInput() {
-  document.getElementById('inputCard').classList.remove('qr-hidden');
-  document.getElementById('manualBtn').style.display = 'none';
-  clearStates();
-  document.getElementById('certInput').value = '';
-  onInput();
-  document.getElementById('certInput').focus();
-}
-
-async function verify() {
-  const id = document.getElementById('certInput').value.trim().toUpperCase();
-  if(!id) return;
-
-  clearStates();
-  document.getElementById('loadingCard').classList.add('show');
-  document.getElementById('verifyBtn').disabled = true;
+/* STRICT REDIRECT & AUTO-VERIFY */
+(async () => {
+  const p = new URLSearchParams(window.location.search);
+  const id = p.get('id') || p.get('cert') || p.get('certificate_id');
+  
+  if (!id) {
+    window.location.replace("https://cert.academeforge.in");
+    return;
+  }
 
   try {
     const res = await fetch(API_URL, {
@@ -181,81 +110,33 @@ async function verify() {
     });
     const data = await res.json();
     
-    document.getElementById('verifyBtn').disabled = false;
-    clearStates();
-
-    if(!data.success) { document.getElementById('errorCard').classList.add('show'); return; }
-    if(!data.found) { 
-      document.getElementById('nfMsg').innerHTML = `The ID <strong>${id}</strong> does not match any certificate in our records.`;
-      document.getElementById('notFoundCard').classList.add('show'); 
-    } else { 
-      showResult(data.record); 
+    if (data.success && data.found) {
+      showResult(data.record);
+    } else {
+      window.location.replace("https://cert.academeforge.in");
     }
   } catch(e) {
-    document.getElementById('verifyBtn').disabled = false;
-    clearStates();
-    document.getElementById('errorCard').classList.add('show');
+    window.location.replace("https://cert.academeforge.in");
   }
-}
+})();
 
 function showResult(r) {
   document.getElementById('resId').textContent = r.certificate_id || '—';
-  
-  // Dynamic current verification timestamp generation
-  const timestampString = new Date().toLocaleString('en-IN');
   
   const cells = [];
   if(r.full_name) cells.push(`<div class="cell full-width"><div class="cell-val">${r.full_name}</div><div class="cell-lbl">Recipient Name</div></div>`);
   if(r.role) cells.push(`<div class="cell"><div class="cell-val">${r.role}</div><div class="cell-lbl">Role / Designation</div></div>`);
   if(r.department) cells.push(`<div class="cell"><div class="cell-val">${r.department}</div><div class="cell-lbl">Department</div></div>`);
   if(r.certificate_type) cells.push(`<div class="cell"><div class="cell-val">${r.certificate_type}</div><div class="cell-lbl">Credential Type</div></div>`);
-  if(r.issue_date) cells.push(`<div class="cell"><div class="cell-val">${fmtDate(r.issue_date)}</div><div class="cell-lbl">Date of Issue</div></div>`);
+  if(r.issue_date) cells.push(`<div class="cell"><div class="cell-val">${new Date(r.issue_date).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'})}</div><div class="cell-lbl">Date of Issue</div></div>`);
   
-  // Appended Verification Time Stamp Entry
-  cells.push(`<div class="cell full-width highlight-cell"><div class="cell-val">${timestampString}</div><div class="cell-lbl">Verified On</div></div>`);
+  // Verification Timestamp
+  cells.push(`<div class="cell full-width highlight"><div class="cell-val">${new Date().toLocaleString('en-IN')}</div><div class="cell-lbl">Verified On</div></div>`);
   
   document.getElementById('detailGrid').innerHTML = cells.join('');
-
-  const desc = document.getElementById('descBlock');
-  if(r.description) {
-    desc.style.display = 'block';
-    desc.textContent = r.description;
-  } else {
-    desc.style.display = 'none';
-  }
-
-  if(isQrAccess) {
-    document.getElementById('manualBtn').style.display = 'block';
-  }
-
+  document.getElementById('loadingCard').classList.remove('show');
   document.getElementById('resultCard').classList.add('show');
 }
-
-function fmtDate(d) {
-  if(!d) return '—';
-  try { return new Date(d).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }); } catch { return d; }
-}
-
-function copyId() {
-  const id = document.getElementById('resId').textContent;
-  navigator.clipboard.writeText(id);
-  const btn = document.getElementById('copyBtn');
-  btn.textContent = "Copied!";
-  setTimeout(() => { btn.textContent = "Copy Certificate ID"; }, 2000);
-}
-
-/* SMART AUTOMATED RUN PARAMETER HANDLER */
-(() => {
-  const p = new URLSearchParams(window.location.search);
-  const id = p.get('id') || p.get('cert') || p.get('certificate_id');
-  if(id) {
-    isQrAccess = true;
-    document.getElementById('inputCard').classList.add('qr-hidden');
-    document.getElementById('certInput').value = id.toUpperCase();
-    onInput();
-    verify();
-  }
-})();
 </script>
 </body>
 </html>
