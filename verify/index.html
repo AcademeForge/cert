@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AcademeForge — Verification</title>
+<title>AcademeForge — Verification Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -48,6 +48,8 @@ header { display: flex; align-items: center; justify-content: space-between; pad
 .card { background: var(--surf); border: 1px solid var(--bdr); border-radius: 16px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,.05); }
 
 /* Input Elements */
+#inputCard { display: block; }
+#inputCard.qr-hidden { display: none; }
 .input-grp { display: flex; gap: 8px; margin-top: 6px; }
 input {
   flex: 1; height: 46px; background: var(--surf-2); border: 1px solid var(--bdr); border-radius: 10px;
@@ -68,10 +70,10 @@ button:disabled { opacity: 0.35; cursor: not-allowed; }
 .spin { width: 32px; height: 32px; border: 3px solid var(--bdr); border-top-color: var(--pri); border-radius: 50%; animation: spin .6s linear infinite; margin: 0 auto 12px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.status-banner { display: flex; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--bdr); margin-bottom: 16px; }
-.status-icon { font-size: 2rem; }
-.status-title { font-weight: 700; font-size: 1.1rem; }
-.status-id { font-family: var(--ff-m); font-size: 0.75rem; color: var(--pri); background: rgba(108,99,255,0.1); padding: 2px 6px; border-radius: 4px; margin-top: 2px; display: inline-block; }
+.status-banner { display: flex; align-items: center; gap: 14px; padding-bottom: 16px; border-bottom: 1px solid var(--bdr); margin-bottom: 16px; }
+.status-icon { font-size: 2.2rem; filter: drop-shadow(0 2px 8px rgba(16,217,138,0.25)); }
+.status-title { font-weight: 700; font-size: 1.15rem; color: var(--suc); letter-spacing: -0.01em; }
+.status-id { font-family: var(--ff-m); font-size: 0.75rem; color: var(--t-2); background: var(--surf-2); border: 1px solid var(--bdr); padding: 3px 8px; border-radius: 6px; margin-top: 4px; display: inline-block; }
 
 /* Data Grid */
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
@@ -79,9 +81,10 @@ button:disabled { opacity: 0.35; cursor: not-allowed; }
 .cell-val { font-weight: 600; font-size: 0.85rem; color: var(--t-1); word-break: break-word; }
 .cell-lbl { font-size: 0.65rem; color: var(--t-3); text-transform: uppercase; font-weight: 600; margin-top: 2px; }
 .full-width { grid-column: span 2; }
+.highlight-cell { border-color: rgba(16,217,138,0.2); background: rgba(16,217,138,0.02); }
 
 .desc { background: var(--surf-2); border: 1px solid var(--bdr); border-radius: 8px; padding: 12px; font-size: 0.8rem; color: var(--t-2); line-height: 1.5; margin-bottom: 16px; }
-.btn-alt { background: var(--surf-2); color: var(--t-1); border: 1px solid var(--bdr); width: 100%; margin-top: 8px; }
+.btn-alt { background: var(--surf-2); color: var(--t-1); border: 1px solid var(--bdr); width: 100%; margin-top: 8px; font-weight: 600; }
 
 footer { text-align: center; font-size: 0.7rem; color: var(--t-3); padding-top: 16px; }
 footer a { color: var(--pri); text-decoration: none; }
@@ -95,7 +98,7 @@ footer a { color: var(--pri); text-decoration: none; }
     <div class="badge">Secure Verification</div>
   </header>
 
-  <div class="card">
+  <div class="card" id="inputCard">
     <div class="input-grp">
       <input type="text" id="certInput" placeholder="Enter Certificate ID" autocomplete="off" spellcheck="false" oninput="onInput()" onkeydown="if(event.key==='Enter')verify()">
       <button id="verifyBtn" onclick="verify()" disabled>Verify</button>
@@ -111,6 +114,7 @@ footer a { color: var(--pri); text-decoration: none; }
     <div style="font-size: 2.5rem; margin-bottom: 8px;">🚫</div>
     <div style="font-weight:700; font-size:1.1rem; color:var(--dan); margin-bottom: 4px;">Invalid Certificate</div>
     <div style="font-size:0.8rem; color:var(--t-2); line-height:1.4; max-width:320px; margin:0 auto;" id="nfMsg">No active records match this ID.</div>
+    <button class="btn-alt" style="margin-top:20px;" onclick="forceShowInput()">Verify Another ID</button>
   </div>
 
   <div class="card state" id="errorCard">
@@ -121,7 +125,7 @@ footer a { color: var(--pri); text-decoration: none; }
 
   <div class="card state" id="resultCard" style="text-align: left;">
     <div class="status-banner">
-      <div class="status-icon">🏅</div>
+      <div class="status-icon">✅</div>
       <div>
         <div class="status-title">Verified Authentic</div>
         <div class="status-id" id="resId">-</div>
@@ -132,6 +136,7 @@ footer a { color: var(--pri); text-decoration: none; }
     <div class="desc" id="descBlock" style="display: none;"></div>
 
     <button class="btn-alt" onclick="copyId()" id="copyBtn">Copy Certificate ID</button>
+    <button class="btn-alt" onclick="forceShowInput()" id="manualBtn" style="display:none;">Verify Another ID</button>
   </div>
 
   <footer>
@@ -141,6 +146,7 @@ footer a { color: var(--pri); text-decoration: none; }
 
 <script>
 const API_URL = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/af-certificate-api";
+let isQrAccess = false;
 
 function onInput() {
   document.getElementById('verifyBtn').disabled = document.getElementById('certInput').value.trim().length < 2;
@@ -148,6 +154,15 @@ function onInput() {
 
 function clearStates() {
   ['loadingCard', 'notFoundCard', 'errorCard', 'resultCard'].forEach(id => document.getElementById(id).classList.remove('show'));
+}
+
+function forceShowInput() {
+  document.getElementById('inputCard').classList.remove('qr-hidden');
+  document.getElementById('manualBtn').style.display = 'none';
+  clearStates();
+  document.getElementById('certInput').value = '';
+  onInput();
+  document.getElementById('certInput').focus();
 }
 
 async function verify() {
@@ -186,12 +201,18 @@ async function verify() {
 function showResult(r) {
   document.getElementById('resId').textContent = r.certificate_id || '—';
   
+  // Dynamic current verification timestamp generation
+  const timestampString = new Date().toLocaleString('en-IN');
+  
   const cells = [];
   if(r.full_name) cells.push(`<div class="cell full-width"><div class="cell-val">${r.full_name}</div><div class="cell-lbl">Recipient Name</div></div>`);
   if(r.role) cells.push(`<div class="cell"><div class="cell-val">${r.role}</div><div class="cell-lbl">Role / Designation</div></div>`);
   if(r.department) cells.push(`<div class="cell"><div class="cell-val">${r.department}</div><div class="cell-lbl">Department</div></div>`);
   if(r.certificate_type) cells.push(`<div class="cell"><div class="cell-val">${r.certificate_type}</div><div class="cell-lbl">Credential Type</div></div>`);
   if(r.issue_date) cells.push(`<div class="cell"><div class="cell-val">${fmtDate(r.issue_date)}</div><div class="cell-lbl">Date of Issue</div></div>`);
+  
+  // Appended Verification Time Stamp Entry
+  cells.push(`<div class="cell full-width highlight-cell"><div class="cell-val">${timestampString}</div><div class="cell-lbl">Verified On</div></div>`);
   
   document.getElementById('detailGrid').innerHTML = cells.join('');
 
@@ -201,6 +222,10 @@ function showResult(r) {
     desc.textContent = r.description;
   } else {
     desc.style.display = 'none';
+  }
+
+  if(isQrAccess) {
+    document.getElementById('manualBtn').style.display = 'block';
   }
 
   document.getElementById('resultCard').classList.add('show');
@@ -219,11 +244,13 @@ function copyId() {
   setTimeout(() => { btn.textContent = "Copy Certificate ID"; }, 2000);
 }
 
-/* AUTO-RUN FROM QR PARAMS */
+/* SMART AUTOMATED RUN PARAMETER HANDLER */
 (() => {
   const p = new URLSearchParams(window.location.search);
   const id = p.get('id') || p.get('cert') || p.get('certificate_id');
   if(id) {
+    isQrAccess = true;
+    document.getElementById('inputCard').classList.add('qr-hidden');
     document.getElementById('certInput').value = id.toUpperCase();
     onInput();
     verify();
