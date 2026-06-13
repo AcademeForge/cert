@@ -3,878 +3,232 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AcademeForge — Certificate Verification</title>
+<title>AcademeForge — Verification</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="icon" type="image/jpeg" href="/AF LOGO 3.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════ TOKENS ═══════════════════ */
 :root {
-  color-scheme: dark;
-  --bg-base:    #080B14;
-  --bg-1:       #0D1120;
-  --bg-2:       #111827;
-  --surf-1:     #141926;
-  --surf-2:     #1A2235;
-  --surf-3:     #202B42;
-  --surf-4:     #27334E;
-  --surf-glass: rgba(14,18,32,.82);
-  --bdr-1:      rgba(255,255,255,.055);
-  --bdr-2:      rgba(255,255,255,.10);
-  --bdr-3:      rgba(255,255,255,.16);
-  --bdr-accent: rgba(108,99,255,.35);
-  --pri:        #6C63FF;
-  --pri-d:      #5751E5;
-  --pri-l:      #8B85FF;
-  --pri-bg:     rgba(108,99,255,.12);
-  --pri-bg-2:   rgba(108,99,255,.22);
-  --pri-glow:   rgba(108,99,255,.45);
-  --sec:        #3D8EF8;
-  --suc:        #10D98A;
-  --suc-d:      #0ABF7A;
-  --suc-bg:     rgba(16,217,138,.11);
-  --suc-bg-2:   rgba(16,217,138,.20);
-  --suc-glow:   rgba(16,217,138,.4);
-  --wrn:        #F5A623;
-  --wrn-bg:     rgba(245,166,35,.11);
-  --dan:        #FF5F7E;
-  --dan-bg:     rgba(255,95,126,.11);
-  --dan-bg-2:   rgba(255,95,126,.20);
-  --gld:        #FFD447;
-  --t-1:        #F0F2FF;
-  --t-2:        #A8B2CC;
-  --t-3:        #5C6882;
-  --t-4:        #2E3650;
-  --hdr-h:      64px;
-  --sidebar-w:  300px;
-  --ff:  'Plus Jakarta Sans', sans-serif;
-  --ff-d:'Syne', sans-serif;
-  --ff-m:'JetBrains Mono', monospace;
-  --sh-xs:  0 1px 3px rgba(0,0,0,.3);
-  --sh-sm:  0 2px 10px rgba(0,0,0,.35);
-  --sh-md:  0 6px 24px rgba(0,0,0,.45);
-  --sh-lg:  0 16px 48px rgba(0,0,0,.55);
-  --sh-pri: 0 8px 32px rgba(108,99,255,.4);
-  --sh-suc: 0 8px 28px rgba(16,217,138,.35);
-  --sh-glow:0 0 40px rgba(108,99,255,.25);
-  --grad-pri:  linear-gradient(135deg, #6C63FF 0%, #A78BFA 100%);
-  --grad-hero: linear-gradient(145deg, #1A0F3C 0%, #0D1A3A 40%, #0A1628 100%);
-  --grad-suc:  linear-gradient(135deg, #10D98A 0%, #05B0A0 100%);
-  --grad-card: linear-gradient(145deg, rgba(255,255,255,.04) 0%, rgba(255,255,255,.01) 100%);
-  --grad-mesh: radial-gradient(ellipse at 20% 50%, rgba(108,99,255,.15) 0%, transparent 60%),
-               radial-gradient(ellipse at 80% 20%, rgba(61,142,248,.1) 0%, transparent 60%),
-               radial-gradient(ellipse at 60% 80%, rgba(16,217,138,.08) 0%, transparent 50%);
-  --ease-spring: cubic-bezier(.34,1.56,.64,1);
-  --ease-out:    cubic-bezier(.22,1,.36,1);
-  --ease-in-out: cubic-bezier(.65,0,.35,1);
-  --r-xs:6px;--r-sm:10px;--r-md:16px;--r-lg:20px;--r-xl:28px;--r-2xl:36px;--r-full:9999px;
+  color-scheme: dark light;
+  --bg: #080B14;
+  --surf: #111827;
+  --surf-2: #1A2235;
+  --bdr: rgba(255,255,255,.08);
+  --pri: #6C63FF;
+  --suc: #10D98A;
+  --dan: #FF5F7E;
+  --t-1: #F0F2FF;
+  --t-2: #A8B2CC;
+  --t-3: #5C6882;
+  --ff: 'Plus Jakarta Sans', sans-serif;
+  --ff-m: 'JetBrains Mono', monospace;
 }
-
-[data-theme="light"] {
-  color-scheme: light;
-  --bg-base:#F0F2FF;--bg-1:#EAECF8;--bg-2:#E3E6F5;
-  --surf-1:#FFFFFF;--surf-2:#F5F6FE;--surf-3:#EDEFFE;--surf-4:#E5E8FC;
-  --surf-glass:rgba(255,255,255,.88);
-  --bdr-1:rgba(0,0,0,.07);--bdr-2:rgba(0,0,0,.11);--bdr-3:rgba(0,0,0,.17);
-  --bdr-accent:rgba(108,99,255,.25);
-  --t-1:#0D0F1A;--t-2:#3A4060;--t-3:#7880A0;--t-4:#BBC1D8;
-  --sh-xs:0 1px 3px rgba(0,0,0,.08);--sh-sm:0 2px 10px rgba(0,0,0,.10);
-  --sh-md:0 6px 24px rgba(0,0,0,.12);--sh-lg:0 16px 48px rgba(0,0,0,.15);
-  --sh-glow:0 0 40px rgba(108,99,255,.15);
-  --grad-hero:linear-gradient(145deg, #2D1B8A 0%, #1A2B6E 40%, #0F2057 100%);
-  --grad-mesh:radial-gradient(ellipse at 20% 50%, rgba(108,99,255,.10) 0%, transparent 60%),
-              radial-gradient(ellipse at 80% 20%, rgba(61,142,248,.07) 0%, transparent 60%),
-              radial-gradient(ellipse at 60% 80%, rgba(16,217,138,.05) 0%, transparent 50%);
-}
-
 @media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    color-scheme:light;
-    --bg-base:#F0F2FF;--bg-1:#EAECF8;--bg-2:#E3E6F5;
-    --surf-1:#FFFFFF;--surf-2:#F5F6FE;--surf-3:#EDEFFE;--surf-4:#E5E8FC;
-    --surf-glass:rgba(255,255,255,.88);
-    --bdr-1:rgba(0,0,0,.07);--bdr-2:rgba(0,0,0,.11);--bdr-3:rgba(0,0,0,.17);
-    --bdr-accent:rgba(108,99,255,.25);
-    --t-1:#0D0F1A;--t-2:#3A4060;--t-3:#7880A0;--t-4:#BBC1D8;
-    --sh-xs:0 1px 3px rgba(0,0,0,.08);--sh-sm:0 2px 10px rgba(0,0,0,.10);
-    --sh-md:0 6px 24px rgba(0,0,0,.12);--sh-lg:0 16px 48px rgba(0,0,0,.15);
-    --sh-glow:0 0 40px rgba(108,99,255,.15);
-    --grad-hero:linear-gradient(145deg, #2D1B8A 0%, #1A2B6E 40%, #0F2057 100%);
+  :root {
+    --bg: #F3F4F6;
+    --surf: #FFFFFF;
+    --surf-2: #F9FAFB;
+    --bdr: rgba(0,0,0,.08);
+    --t-1: #111827;
+    --t-2: #4B5563;
+    --t-3: #9CA3AF;
   }
 }
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: var(--ff); background: var(--bg); color: var(--t-1);
+  min-height: 100dvh; display: flex; flex-direction: column; align-items: center; padding: 20px 16px;
+}
+.wrap { width: 100%; max-width: 500px; margin: auto; display: flex; flex-direction: column; gap: 16px; }
 
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{-webkit-tap-highlight-color:transparent;scroll-behavior:smooth;}
-body{
-  font-family:var(--ff);background:var(--bg-base);color:var(--t-1);
-  min-height:100dvh;overflow-x:hidden;font-size:15px;line-height:1.5;
-  transition:background .3s,color .3s;
-}
-button{cursor:pointer;border:none;outline:none;font:inherit;background:none;}
-a{text-decoration:none;color:inherit;}
-input{font:inherit;outline:none;}
-::-webkit-scrollbar{width:5px;}
-::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:var(--bdr-3);border-radius:99px;}
+header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--bdr); }
+.logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
+.badge { font-size: 0.65rem; font-weight: 700; padding: 4px 8px; border-radius: 99px; background: rgba(16,217,138,.15); color: var(--suc); text-transform: uppercase; }
 
-/* ═══ LAYOUT SHELL ═══ */
-.page-wrap {
-  display: flex;
-  flex-direction: column;
-  min-height: 100dvh;
-}
+.card { background: var(--surf); border: 1px solid var(--bdr); border-radius: 16px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,.05); }
 
-/* ═══ HEADER ═══ */
-.header {
-  position: sticky; top: 0; z-index: 300;
-  width: 100%; height: var(--hdr-h);
-  background: var(--surf-glass);
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
-  border-bottom: 1px solid var(--bdr-1);
+/* Input Elements */
+.input-grp { display: flex; gap: 8px; margin-top: 6px; }
+input {
+  flex: 1; height: 46px; background: var(--surf-2); border: 1px solid var(--bdr); border-radius: 10px;
+  padding: 0 12px; font-family: var(--ff-m); color: var(--t-1); font-size: 0.9rem; text-transform: uppercase;
 }
-.header-inner {
-  max-width: 1320px; margin: 0 auto;
-  height: 100%; padding: 0 24px;
-  display: flex; align-items: center; justify-content: space-between;
+input::placeholder { text-transform: none; font-family: var(--ff); color: var(--t-3); }
+input:focus { border-color: var(--pri); outline: none; }
+button {
+  height: 46px; background: var(--pri); color: #fff; border: none; border-radius: 10px;
+  padding: 0 16px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: opacity 0.2s;
 }
-.logo-group{display:flex;align-items:center;gap:12px;}
-.logo-mark{
-  width:40px;height:40px;border-radius:12px;background:var(--grad-pri);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--ff-d);font-size:.78rem;font-weight:800;color:#fff;
-  flex-shrink:0;overflow:hidden;position:relative;
-  box-shadow:0 4px 16px rgba(108,99,255,.5);
-}
-.logo-mark img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
-.logo-text .name{font-family:var(--ff-d);font-size:1rem;font-weight:700;color:var(--t-1);line-height:1;letter-spacing:-.01em;}
-.logo-text .sub{font-size:.58rem;font-weight:600;color:var(--t-3);letter-spacing:.08em;text-transform:uppercase;margin-top:3px;}
-.hdr-center {
-  display: none;
-  align-items: center; gap: 6px;
-  font-size: .75rem; color: var(--t-3); font-weight: 600;
-}
-.hdr-center svg { opacity: .5; }
-.hdr-pill {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 14px;
-  background: var(--suc-bg); border: 1px solid rgba(16,217,138,.2);
-  border-radius: var(--r-full);
-  font-size: .6rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--suc);
-}
-.hdr-dot{width:6px;height:6px;border-radius:50%;background:var(--suc);animation:pulse-dot 1.4s ease-in-out infinite;}
-.hdr-right{display:flex;gap:8px;align-items:center;}
-.icon-btn{
-  width:38px;height:38px;border-radius:10px;background:var(--surf-3);color:var(--t-2);
-  font-size:.9rem;display:flex;align-items:center;justify-content:center;
-  transition:all .2s var(--ease-spring);border:1px solid var(--bdr-1);
-}
-.icon-btn:hover{background:var(--surf-4);border-color:var(--bdr-2);}
-.icon-btn:active{transform:scale(.88);}
+button:hover { opacity: 0.9; }
+button:disabled { opacity: 0.35; cursor: not-allowed; }
 
-/* ═══ CONTENT AREA ═══ */
-.content-area {
-  flex: 1;
-  max-width: 1320px;
-  margin: 0 auto;
-  width: 100%;
-  padding: 20px 16px 48px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+/* Status Cards */
+.state { display: none; text-align: center; padding: 30px 10px; }
+.state.show { display: block; }
+.spin { width: 32px; height: 32px; border: 3px solid var(--bdr); border-top-color: var(--pri); border-radius: 50%; animation: spin .6s linear infinite; margin: 0 auto 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* ═══ DESKTOP LAYOUT — two columns ═══ */
-@media (min-width: 900px) {
-  .hdr-center { display: flex; }
-  .content-area {
-    padding: 36px 32px 64px;
-    display: grid;
-    grid-template-columns: var(--sidebar-w) 1fr;
-    grid-template-rows: auto;
-    gap: 28px;
-    align-items: start;
-  }
-  .content-area > .hero          { grid-column: 1 / -1; }
-  .content-area > .left-col      { grid-column: 1; display: flex; flex-direction: column; gap: 20px; }
-  .content-area > .right-col     { grid-column: 2; display: flex; flex-direction: column; gap: 20px; }
-}
+.status-banner { display: flex; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--bdr); margin-bottom: 16px; }
+.status-icon { font-size: 2rem; }
+.status-title { font-weight: 700; font-size: 1.1rem; }
+.status-id { font-family: var(--ff-m); font-size: 0.75rem; color: var(--pri); background: rgba(108,99,255,0.1); padding: 2px 6px; border-radius: 4px; margin-top: 2px; display: inline-block; }
 
-/* On mobile everything stacks */
-.left-col, .right-col {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+/* Data Grid */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.cell { background: var(--surf-2); border: 1px solid var(--bdr); border-radius: 8px; padding: 10px 12px; }
+.cell-val { font-weight: 600; font-size: 0.85rem; color: var(--t-1); word-break: break-word; }
+.cell-lbl { font-size: 0.65rem; color: var(--t-3); text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+.full-width { grid-column: span 2; }
 
-/* ═══ HERO ═══ */
-.hero {
-  border-radius: var(--r-xl);
-  background: var(--grad-hero);
-  padding: 32px 28px 28px;
-  position: relative; overflow: hidden;
-  border: 1px solid rgba(108,99,255,.2);
-  box-shadow: 0 20px 60px rgba(0,0,0,.5), var(--sh-glow);
-}
-.hero::before{content:'';position:absolute;inset:0;background:var(--grad-mesh);pointer-events:none;}
-.hero::after{
-  content:'';position:absolute;right:-80px;top:-80px;
-  width:280px;height:280px;
-  background:radial-gradient(circle,rgba(108,99,255,.25) 0%,transparent 70%);
-  pointer-events:none;
-}
-.hero-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-.hero-text {}
-.hero-eyebrow{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:8px;}
-.hero-title{font-family:var(--ff-d);font-size:clamp(1.5rem, 3vw, 2.2rem);font-weight:700;color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:6px;}
-.hero-sub{font-size:.75rem;color:rgba(255,255,255,.45);line-height:1.7;max-width:480px;}
-.shield-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  margin-top:16px;padding:7px 16px;
-  background:rgba(16,217,138,.15);
-  border:1px solid rgba(16,217,138,.25);
-  border-radius:var(--r-full);
-  font-size:.61rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--suc);
-}
-.shield-dot{width:6px;height:6px;border-radius:50%;background:var(--suc);animation:pulse-dot 1.4s ease-in-out infinite;}
+.desc { background: var(--surf-2); border: 1px solid var(--bdr); border-radius: 8px; padding: 12px; font-size: 0.8rem; color: var(--t-2); line-height: 1.5; margin-bottom: 16px; }
+.btn-alt { background: var(--surf-2); color: var(--t-1); border: 1px solid var(--bdr); width: 100%; margin-top: 8px; }
 
-/* Desktop hero stat badges */
-.hero-stats { display: none; gap: 14px; }
-.stat-badge {
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: var(--r-lg); padding: 14px 20px; text-align: center; min-width: 110px;
-  backdrop-filter: blur(8px);
-}
-.stat-val { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 700; color: #fff; }
-.stat-lbl { font-size: .58rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.4); margin-top: 2px; }
-
-.hero-dots{position:absolute;bottom:18px;right:20px;display:grid;grid-template-columns:repeat(4,6px);gap:4px;opacity:.15;}
-.hero-dots span{display:block;width:6px;height:6px;border-radius:50%;background:#fff;}
-.hero-dots span:nth-child(even){opacity:.5;}
-
-@media (min-width: 900px) {
-  .hero { padding: 40px 36px 36px; }
-  .hero-stats { display: flex; }
-}
-
-/* ═══ SEARCH CARD ═══ */
-.search-card{
-  background:var(--surf-1);border-radius:var(--r-xl);
-  border:1px solid var(--bdr-1);box-shadow:var(--sh-sm);
-  overflow:hidden;position:relative;
-}
-.search-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad-pri);}
-.search-inner{padding:22px 20px 20px;}
-.search-lbl{font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--t-3);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
-.search-lbl::after{content:'';flex:1;height:1px;background:var(--bdr-1);}
-.input-wrap{
-  display:flex;align-items:center;gap:10px;
-  background:var(--surf-2);border:1.5px solid var(--bdr-1);
-  border-radius:var(--r-md);padding:0 14px;height:52px;
-  transition:border-color .2s,box-shadow .2s;margin-bottom:12px;
-}
-.input-wrap:focus-within{border-color:var(--pri);box-shadow:0 0 0 3px rgba(108,99,255,.15);}
-.input-ico{font-size:1rem;color:var(--t-3);flex-shrink:0;}
-.input-wrap input{
-  flex:1;border:none;background:none;
-  font-family:var(--ff-m);font-size:.88rem;font-weight:500;
-  color:var(--t-1);letter-spacing:.05em;text-transform:uppercase;
-}
-.input-wrap input::placeholder{color:var(--t-4);text-transform:none;font-family:var(--ff);letter-spacing:0;font-weight:400;}
-.clear-btn{
-  width:28px;height:28px;border-radius:var(--r-xs);
-  background:var(--surf-3);color:var(--t-3);
-  display:none;align-items:center;justify-content:center;
-  font-size:.7rem;border:1px solid var(--bdr-1);
-  transition:all .15s;flex-shrink:0;
-}
-.clear-btn.show{display:flex;}
-.clear-btn:hover{background:var(--surf-4);}
-.verify-btn{
-  width:100%;height:52px;border-radius:var(--r-md);
-  background:var(--grad-pri);color:#fff;
-  font-family:var(--ff);font-size:.92rem;font-weight:700;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  transition:all .22s var(--ease-spring);
-  box-shadow:var(--sh-pri);letter-spacing:.01em;
-}
-.verify-btn:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 12px 40px rgba(108,99,255,.5);}
-.verify-btn:active{transform:scale(.97);}
-.verify-btn:disabled{opacity:.35;pointer-events:none;box-shadow:none;}
-.hint-row{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:.63rem;color:var(--t-3);}
-
-/* ═══ HOW IT WORKS (sidebar) ═══ */
-.info-section{
-  background:var(--surf-1);border-radius:var(--r-xl);
-  border:1px solid var(--bdr-1);box-shadow:var(--sh-xs);
-  overflow:hidden;
-}
-.info-section-hdr{
-  padding:14px 18px;border-bottom:1px solid var(--bdr-1);
-  background:var(--surf-2);
-  font-size:.62rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--t-3);
-  display:flex;align-items:center;gap:8px;
-}
-.info-row{
-  display:flex;align-items:flex-start;gap:14px;
-  padding:14px 18px;border-bottom:1px solid var(--bdr-1);
-}
-.info-row:last-child{border-bottom:none;}
-.info-ico{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
-.info-txt .ttl{font-size:.82rem;font-weight:700;color:var(--t-1);margin-bottom:2px;}
-.info-txt .sub{font-size:.68rem;color:var(--t-3);line-height:1.65;}
-
-/* Trust badges */
-.trust-block {
-  background: var(--surf-1); border-radius: var(--r-xl);
-  border: 1px solid var(--bdr-1); box-shadow: var(--sh-xs);
-  padding: 18px 18px;
-}
-.trust-block .sec-lbl { font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--t-3);margin-bottom:12px;display:flex;align-items:center;gap:8px; }
-.trust-block .sec-lbl::after{content:'';flex:1;height:1px;background:var(--bdr-1);}
-.trust-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.trust-item {
-  background: var(--surf-3); border-radius: var(--r-sm);
-  border: 1px solid var(--bdr-1);
-  padding: 10px 12px;
-  display: flex; align-items: center; gap: 8px;
-}
-.trust-ico { font-size: 1.1rem; flex-shrink: 0; }
-.trust-txt { font-size: .62rem; font-weight: 700; color: var(--t-2); line-height: 1.4; }
-
-/* ═══ STATE CARDS ═══ */
-.state-card{
-  background:var(--surf-1);border-radius:var(--r-xl);
-  border:1px solid var(--bdr-1);box-shadow:var(--sh-sm);
-  padding:48px 28px;text-align:center;display:none;
-  animation:fadeUp .28s var(--ease-out);
-}
-.state-card.show{display:block;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.state-ico{font-size:3rem;margin-bottom:16px;line-height:1;display:block;}
-.state-ttl{font-family:var(--ff-d);font-size:1.2rem;font-weight:700;margin-bottom:8px;color:var(--t-1);}
-.state-sub{font-size:.78rem;color:var(--t-3);line-height:1.8;max-width:280px;margin:0 auto;}
-.spin{width:40px;height:40px;border-radius:50%;border:3px solid var(--bdr-2);border-top-color:var(--pri);animation:spin .7s linear infinite;margin:0 auto 18px;}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pulse-dot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(16,217,138,.5)}50%{opacity:.6;box-shadow:0 0 0 5px rgba(16,217,138,0)}}
-
-/* ═══ RESULT CARD ═══ */
-.result-card{
-  background:var(--surf-1);border-radius:var(--r-xl);
-  border:1px solid var(--bdr-1);box-shadow:var(--sh-md);
-  overflow:hidden;display:none;
-  animation:fadeUp .3s var(--ease-out);
-}
-.result-card.show{display:block;}
-
-.result-accent{height:4px;width:100%;}
-.result-accent.valid{background:var(--grad-suc);}
-.result-accent.invalid{background:var(--dan);}
-
-.result-hdr{
-  padding:24px 22px 20px;
-  display:flex;align-items:flex-start;gap:18px;
-  position:relative;
-}
-.result-hdr::before{content:'';position:absolute;inset:0;background:var(--grad-card);pointer-events:none;}
-.result-badge{
-  width:62px;height:62px;border-radius:var(--r-lg);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.7rem;position:relative;flex-shrink:0;
-}
-.result-badge.valid{background:var(--suc-bg-2);}
-.result-badge.invalid{background:var(--dan-bg-2);}
-.result-badge-ring{position:absolute;inset:-3px;border-radius:calc(var(--r-lg) + 3px);border:2px solid transparent;}
-.result-badge.valid .result-badge-ring{border-color:rgba(16,217,138,.35);}
-.result-badge.invalid .result-badge-ring{border-color:rgba(255,95,126,.3);}
-.result-hdr-info{flex:1;min-width:0;}
-.result-status-lbl{font-size:.59rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;margin-bottom:4px;}
-.result-status-lbl.valid{color:var(--suc);}
-.result-status-lbl.invalid{color:var(--dan);}
-.result-name{font-family:var(--ff-d);font-size:1.15rem;font-weight:700;color:var(--t-1);line-height:1.2;margin-bottom:4px;}
-.result-role{font-size:.73rem;color:var(--t-3);line-height:1.5;}
-.result-cert-id{
-  font-family:var(--ff-m);font-size:.6rem;font-weight:700;
-  letter-spacing:.07em;color:var(--pri-l);
-  background:var(--pri-bg);border:1px solid var(--bdr-accent);
-  padding:4px 10px;border-radius:var(--r-full);
-  display:inline-block;margin-top:6px;
-}
-
-.chips-row{
-  display:flex;flex-wrap:wrap;gap:6px;
-  padding:12px 22px;border-top:1px solid var(--bdr-1);
-  background:var(--surf-2);
-}
-.chip{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:var(--r-full);font-size:.59rem;font-weight:700;letter-spacing:.02em;}
-.chip-p{background:var(--pri-bg);color:var(--pri-l);border:1px solid var(--bdr-accent);}
-.chip-s{background:var(--suc-bg);color:var(--suc);border:1px solid rgba(16,217,138,.2);}
-.chip-w{background:var(--wrn-bg);color:var(--wrn);border:1px solid rgba(245,166,35,.15);}
-.chip-n{background:var(--surf-3);color:var(--t-3);border:1px solid var(--bdr-1);}
-
-.details-body{padding:20px 22px;}
-.sec-lbl{
-  font-size:.58rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--t-3);
-  margin-bottom:12px;display:flex;align-items:center;gap:8px;
-}
-.sec-lbl::after{content:'';flex:1;height:1px;background:var(--bdr-1);}
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
-.detail-grid.full{grid-template-columns:1fr;}
-.detail-cell{
-  background:var(--surf-3);border-radius:var(--r-sm);
-  padding:12px 13px;border:1px solid var(--bdr-1);
-}
-.detail-val{font-family:var(--ff-m);font-size:.77rem;font-weight:700;color:var(--t-1);line-height:1.3;word-break:break-word;}
-.detail-lbl{font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t-3);margin-top:5px;}
-
-.sign-strip{
-  display:flex;align-items:center;gap:14px;
-  background:var(--pri-bg);border:1px solid var(--bdr-accent);
-  border-radius:var(--r-md);padding:14px 16px;
-}
-.sign-ava{
-  width:44px;height:44px;border-radius:var(--r-sm);
-  background:var(--grad-pri);display:flex;align-items:center;justify-content:center;
-  font-family:var(--ff-d);font-size:.78rem;font-weight:700;color:#fff;flex-shrink:0;
-  box-shadow:0 4px 12px rgba(108,99,255,.35);
-}
-.sign-name{font-size:.88rem;font-weight:700;color:var(--t-1);}
-.sign-role{font-size:.67rem;color:var(--t-3);margin-top:2px;}
-.sign-verified{
-  margin-left:auto;font-size:.58rem;font-weight:800;
-  padding:4px 10px;border-radius:var(--r-full);
-  background:var(--suc-bg-2);color:var(--suc);
-  border:1px solid rgba(16,217,138,.2);flex-shrink:0;
-}
-
-.desc-block{
-  background:var(--surf-2);border:1px solid var(--bdr-1);
-  border-radius:var(--r-md);padding:14px 16px;
-  font-size:.79rem;color:var(--t-2);line-height:1.8;
-}
-
-.action-row{
-  padding:16px 22px 22px;border-top:1px solid var(--bdr-1);
-  display:flex;gap:10px;
-}
-.action-row .btn{
-  flex:1;height:46px;border-radius:var(--r-md);
-  font-size:.8rem;font-weight:700;
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  transition:all .2s var(--ease-spring);
-}
-.btn-pri-sm{background:var(--grad-pri);color:#fff;box-shadow:var(--sh-pri);}
-.btn-pri-sm:hover{opacity:.9;transform:translateY(-1px);}
-.btn-gho-sm{background:var(--surf-3);color:var(--t-2);border:1px solid var(--bdr-2);}
-.btn-gho-sm:hover{background:var(--surf-4);}
-.btn:active{transform:scale(.96);}
-
-/* ═══ NOT FOUND ═══ */
-.not-found-card{
-  background:var(--surf-1);border-radius:var(--r-xl);
-  border:1px solid rgba(255,95,126,.2);
-  box-shadow:0 6px 24px rgba(255,95,126,.1);
-  padding:48px 24px;text-align:center;
-  display:none;animation:fadeUp .28s var(--ease-out);
-}
-.not-found-card.show{display:block;}
-.nf-ico{font-size:3rem;margin-bottom:16px;display:block;}
-.nf-ttl{font-family:var(--ff-d);font-size:1.2rem;font-weight:700;color:var(--dan);margin-bottom:8px;}
-.nf-sub{font-size:.77rem;color:var(--t-3);line-height:1.8;margin-bottom:18px;}
-.nf-id{
-  font-family:var(--ff-m);font-size:.8rem;font-weight:700;
-  background:var(--dan-bg-2);color:var(--dan);
-  padding:8px 18px;border-radius:var(--r-full);
-  display:inline-block;border:1px solid rgba(255,95,126,.2);
-  margin-bottom:18px;
-}
-
-/* ═══ TOAST ═══ */
-.toast-wrap{position:fixed;top:calc(var(--hdr-h) + 12px);left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:420px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
-.toast{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;border-radius:var(--r-lg);background:var(--surf-glass);border:1px solid var(--bdr-2);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:var(--sh-lg);pointer-events:all;animation:toastIn .3s var(--ease-spring);position:relative;overflow:hidden;}
-.toast.out{animation:toastOut .2s var(--ease-in-out) forwards;}
-.toast-bar{position:absolute;bottom:0;left:0;height:2px;animation:toastProg linear forwards;}
-.toast.success .toast-bar{background:var(--suc);}
-.toast.error   .toast-bar{background:var(--dan);}
-.toast.info    .toast-bar{background:var(--pri);}
-.toast-ico{font-size:1.05rem;flex-shrink:0;margin-top:1px;}
-.toast-body{flex:1;}
-.toast-ttl{font-size:.82rem;font-weight:700;color:var(--t-1);}
-.toast-msg{font-size:.71rem;color:var(--t-3);margin-top:2px;}
-.toast-x{color:var(--t-4);font-size:.75rem;cursor:pointer;padding:2px 0 0 6px;flex-shrink:0;}
-@keyframes toastIn{from{opacity:0;transform:translateY(-12px) scale(.96)}to{opacity:1;transform:none}}
-@keyframes toastOut{to{opacity:0;transform:translateY(-8px) scale(.97)}}
-@keyframes toastProg{from{width:100%}to{width:0%}}
-
-/* ═══ FOOTER ═══ */
-.footer{
-  text-align:center;padding:24px 16px 28px;
-  font-size:.6rem;color:var(--t-4);
-  line-height:1.9; border-top: 1px solid var(--bdr-1);
-}
-.footer a{color:var(--t-3);}
-
-/* ═══ DESKTOP GRID (3-col detail) ═══ */
-@media (min-width: 900px) {
-  .detail-grid { grid-template-columns: 1fr 1fr 1fr; }
-}
-
-/* ═══ RESPONSIVE HERO STATS ON LARGE ═══ */
-@media (min-width: 1100px) {
-  :root { --sidebar-w: 320px; }
-}
+footer { text-align: center; font-size: 0.7rem; color: var(--t-3); padding-top: 16px; }
+footer a { color: var(--pri); text-decoration: none; }
 </style>
 </head>
 <body>
 
-<div class="page-wrap">
-
-  <!-- HEADER -->
-  <header class="header">
-    <div class="header-inner">
-      <div class="logo-group">
-        <div class="logo-mark">
-          <img src="/AF LOGO 3.png" alt="AF" onerror="this.style.display='none'">
-          AF
-        </div>
-        <div class="logo-text">
-          <div class="name">AcademeForge</div>
-          <div class="sub">Certificate Portal</div>
-        </div>
-      </div>
-
-      <!-- Desktop center badge -->
-      <div class="hdr-center">
-        <div class="hdr-pill"><div class="hdr-dot"></div>Verification Active</div>
-      </div>
-
-      <div class="hdr-right">
-        <button class="icon-btn" id="darkBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
-      </div>
-    </div>
+<div class="wrap">
+  <header>
+    <div class="logo">AcademeForge</div>
+    <div class="badge">Secure Verification</div>
   </header>
 
-  <!-- TOAST -->
-  <div class="toast-wrap" id="toastWrap"></div>
-
-  <!-- CONTENT -->
-  <div class="content-area">
-
-    <!-- HERO (full-width) -->
-    <div class="hero">
-      <div class="hero-inner">
-        <div class="hero-text">
-          <div class="hero-eyebrow">🔐 Authenticity Portal</div>
-          <div class="hero-title">Certificate<br>Verification</div>
-          <div class="hero-sub">Enter a certificate ID to instantly verify the authenticity of any AcademeForge credential against our secure database.</div>
-          <div class="shield-badge"><div class="shield-dot"></div>Secured by AcademeForge</div>
-        </div>
-        <div class="hero-stats">
-          <div class="stat-badge">
-            <div class="stat-val">100%</div>
-            <div class="stat-lbl">Secure</div>
-          </div>
-          <div class="stat-badge">
-            <div class="stat-val">&lt;1s</div>
-            <div class="stat-lbl">Instant</div>
-          </div>
-          <div class="stat-badge">
-            <div class="stat-val">24/7</div>
-            <div class="stat-lbl">Online</div>
-          </div>
-        </div>
-      </div>
-      <div class="hero-dots">
-        <span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span>
-      </div>
+  <div class="card">
+    <div class="input-grp">
+      <input type="text" id="certInput" placeholder="Enter Certificate ID" autocomplete="off" spellcheck="false" oninput="onInput()" onkeydown="if(event.key==='Enter')verify()">
+      <button id="verifyBtn" onclick="verify()" disabled>Verify</button>
     </div>
-
-    <!-- LEFT COLUMN (sidebar on desktop) -->
-    <div class="left-col">
-
-      <!-- SEARCH CARD -->
-      <div class="search-card">
-        <div class="search-inner">
-          <div class="search-lbl">Certificate ID</div>
-          <div class="input-wrap">
-            <span class="input-ico">🪪</span>
-            <input
-              type="text"
-              id="certInput"
-              placeholder="e.g. AFC-2025-001"
-              autocomplete="off"
-              autocorrect="off"
-              spellcheck="false"
-              oninput="onInput()"
-              onkeydown="onKey(event)"
-            >
-            <button class="clear-btn" id="clearBtn" onclick="clearInput()">✕</button>
-          </div>
-          <button class="verify-btn" id="verifyBtn" onclick="verify()" disabled>
-            🔍 Verify Certificate
-          </button>
-          <div class="hint-row">
-            ℹ️ IDs are case-insensitive — e.g. <strong>AFC-2024-042</strong>
-          </div>
-        </div>
-      </div>
-
-
-    <!-- RIGHT COLUMN (main area on desktop) -->
-    <div class="right-col">
-
-      <!-- LOADING STATE -->
-      <div class="state-card" id="loadingCard">
-        <div class="spin"></div>
-        <div class="state-ttl">Verifying…</div>
-        <div class="state-sub">Checking authenticity against our secure database. This takes just a moment.</div>
-      </div>
-
-      <!-- VALID RESULT -->
-      <div class="result-card" id="resultCard">
-        <div class="result-accent valid" id="resultAccent"></div>
-        <div class="result-hdr">
-          <div class="result-badge valid" id="resultBadge">
-            🏅
-            <div class="result-badge-ring"></div>
-          </div>
-          <div class="result-hdr-info">
-            <div class="result-status-lbl valid" id="resultStatusLbl">✅ Verified Authentic</div>
-            <div class="result-name" id="resultName">—</div>
-            <div class="result-role" id="resultRole">—</div>
-            <div class="result-cert-id" id="resultCertId">—</div>
-          </div>
-        </div>
-
-        <div class="chips-row" id="chipsRow"></div>
-
-        <div class="details-body">
-          <div class="sec-lbl">Certificate Details</div>
-          <div class="detail-grid" id="detailGrid"></div>
-
-          <div id="signatorySection" style="display:none;margin-bottom:16px;">
-            <div class="sec-lbl">Authorized By</div>
-            <div class="sign-strip">
-              <div class="sign-ava" id="signAva">—</div>
-              <div>
-                <div class="sign-name" id="signName">—</div>
-                <div class="sign-role" id="signRole">—</div>
-              </div>
-              <div class="sign-verified">✓ Authorized</div>
-            </div>
-          </div>
-
-          <div id="descSection" style="display:none;">
-            <div class="sec-lbl">Description</div>
-            <div class="desc-block" id="descBlock">—</div>
-          </div>
-        </div>
-
-        <div class="action-row">
-          <button class="btn btn-gho-sm" onclick="resetSearch()">← Search Again</button>
-          <button class="btn btn-pri-sm" onclick="copyId()">📋 Copy ID</button>
-        </div>
-      </div>
-
-      <!-- NOT FOUND -->
-      <div class="not-found-card" id="notFoundCard">
-        <span class="nf-ico">🚫</span>
-        <div class="nf-ttl">Certificate Not Found</div>
-        <div class="nf-id" id="nfId">—</div>
-        <div class="nf-sub">No certificate matches this ID in our records. The ID may be incorrect, or the certificate may not have been issued by AcademeForge.</div>
-        <button class="verify-btn" style="max-width:220px;margin:0 auto;" onclick="resetSearch()">← Try Again</button>
-      </div>
-
-      <!-- ERROR STATE -->
-      <div class="state-card" id="errorCard">
-        <span class="state-ico">⚠️</span>
-        <div class="state-ttl">Connection Error</div>
-        <div class="state-sub">Could not reach the verification server. Please check your connection and try again.</div>
-        <button class="verify-btn" style="max-width:200px;margin:20px auto 0;" onclick="retryVerify()">↺ Retry</button>
-      </div>
-
-      <!-- DEFAULT PLACEHOLDER (desktop only, shows in right col before search) -->
-      <div class="state-card show" id="placeholderCard" style="border:1.5px dashed var(--bdr-2);background:transparent;box-shadow:none;">
-        <span class="state-ico">🔍</span>
-        <div class="state-ttl">Enter a Certificate ID</div>
-        <div class="state-sub">Type a certificate ID in the search field on the left to check its authenticity instantly.</div>
-      </div>
-
-    </div>
-
   </div>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-   <br>
-    Certificate Verification Portal <a href="academeforge.in">AcademeForge</a> · 2026
-  </footer>
+  <div class="card state" id="loadingCard">
+    <div class="spin"></div>
+    <div style="font-size:0.9rem; color:var(--t-2)">Validating credential database...</div>
+  </div>
 
+  <div class="card state" id="notFoundCard">
+    <div style="font-size: 2.5rem; margin-bottom: 8px;">🚫</div>
+    <div style="font-weight:700; font-size:1.1rem; color:var(--dan); margin-bottom: 4px;">Invalid Certificate</div>
+    <div style="font-size:0.8rem; color:var(--t-2); line-height:1.4; max-width:320px; margin:0 auto;" id="nfMsg">No active records match this ID.</div>
+  </div>
+
+  <div class="card state" id="errorCard">
+    <div style="font-size: 2rem; margin-bottom: 8px;">⚠️</div>
+    <div style="font-weight:700; font-size:0.95rem; margin-bottom: 12px;">Network Error</div>
+    <button class="btn-alt" style="margin:0; height:38px;" onclick="verify()">Retry Connection</button>
+  </div>
+
+  <div class="card state" id="resultCard" style="text-align: left;">
+    <div class="status-banner">
+      <div class="status-icon">🏅</div>
+      <div>
+        <div class="status-title">Verified Authentic</div>
+        <div class="status-id" id="resId">-</div>
+      </div>
+    </div>
+
+    <div class="grid" id="detailGrid"></div>
+    <div class="desc" id="descBlock" style="display: none;"></div>
+
+    <button class="btn-alt" onclick="copyId()" id="copyBtn">Copy Certificate ID</button>
+  </div>
+
+  <footer>
+    Verification Portal &copy; 2026 <a href="https://academeforge.in">AcademeForge</a>
+  </footer>
 </div>
 
 <script>
 const API_URL = "https://afooyyydhlwngzssgqih.supabase.co/functions/v1/af-certificate-api";
-let _retryId = '', _lastCertId = '';
 
-/* ── THEME ── */
-(function initTheme() {
-  const s = localStorage.getItem('af_theme');
-  if (s) document.documentElement.setAttribute('data-theme', s);
-  updateThemeUI();
-})();
-function isDark(){const s=localStorage.getItem('af_theme');if(s)return s==='dark';return window.matchMedia('(prefers-color-scheme: dark)').matches;}
-function updateThemeUI(){document.getElementById('darkBtn').textContent=isDark()?'☀️':'🌙';}
-function toggleTheme(){const n=isDark()?'light':'dark';localStorage.setItem('af_theme',n);document.documentElement.setAttribute('data-theme',n);updateThemeUI();}
-
-/* ── TOAST ── */
-function toast(title,msg='',type='info',dur=3200){
-  const icons={success:'✅',error:'❌',info:'ℹ️'};
-  const wrap=document.getElementById('toastWrap');
-  const el=document.createElement('div');
-  el.className=`toast ${type}`;
-  el.innerHTML=`<span class="toast-ico">${icons[type]||'ℹ️'}</span><div class="toast-body"><div class="toast-ttl">${title}</div>${msg?`<div class="toast-msg">${msg}</div>`:''}</div><button class="toast-x" onclick="this.parentElement.remove()">✕</button><div class="toast-bar" style="animation-duration:${dur}ms"></div>`;
-  wrap.appendChild(el);
-  setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),220);},dur);
+function onInput() {
+  document.getElementById('verifyBtn').disabled = document.getElementById('certInput').value.trim().length < 2;
 }
 
-/* ── INPUT ── */
-function onInput(){
-  const val=document.getElementById('certInput').value.trim();
-  document.getElementById('verifyBtn').disabled=val.length<2;
-  document.getElementById('clearBtn').classList.toggle('show',val.length>0);
-}
-function clearInput(){
-  document.getElementById('certInput').value='';
-  document.getElementById('verifyBtn').disabled=true;
-  document.getElementById('clearBtn').classList.remove('show');
-  document.getElementById('certInput').focus();
-  resetCards();
-}
-function onKey(e){if(e.key==='Enter')verify();}
-
-function resetCards(){
-  ['loadingCard','resultCard','notFoundCard','errorCard'].forEach(id=>document.getElementById(id).classList.remove('show'));
-  const ph=document.getElementById('placeholderCard');
-  if(ph) ph.classList.add('show');
-}
-function resetSearch(){
-  resetCards();
-  document.getElementById('certInput').value='';
-  document.getElementById('verifyBtn').disabled=true;
-  document.getElementById('clearBtn').classList.remove('show');
-  document.getElementById('certInput').focus();
+function clearStates() {
+  ['loadingCard', 'notFoundCard', 'errorCard', 'resultCard'].forEach(id => document.getElementById(id).classList.remove('show'));
 }
 
-/* ── VERIFY ── */
-async function verify(){
-  const id=document.getElementById('certInput').value.trim().toUpperCase();
-  if(!id)return;
-  _retryId=id; _lastCertId=id;
+async function verify() {
+  const id = document.getElementById('certInput').value.trim().toUpperCase();
+  if(!id) return;
 
-  const ph=document.getElementById('placeholderCard');
-  if(ph) ph.classList.remove('show');
-  ['resultCard','notFoundCard','errorCard'].forEach(i=>document.getElementById(i).classList.remove('show'));
+  clearStates();
   document.getElementById('loadingCard').classList.add('show');
-  document.getElementById('verifyBtn').disabled=true;
+  document.getElementById('verifyBtn').disabled = true;
 
-  try{
-    const res=await fetch(API_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({action:'verify',certificate_id:id})
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'verify', certificate_id: id })
     });
-    const data=await res.json();
-    document.getElementById('loadingCard').classList.remove('show');
-    document.getElementById('verifyBtn').disabled=false;
-    if(!data.success){showError();return;}
-    if(!data.found) showNotFound(id);
-    else showResult(data.record);
-  }catch(e){
-    document.getElementById('loadingCard').classList.remove('show');
-    document.getElementById('verifyBtn').disabled=false;
-    showError();
+    const data = await res.json();
+    
+    document.getElementById('verifyBtn').disabled = false;
+    clearStates();
+
+    if(!data.success) { document.getElementById('errorCard').classList.add('show'); return; }
+    if(!data.found) { 
+      document.getElementById('nfMsg').innerHTML = `The ID <strong>${id}</strong> does not match any certificate in our records.`;
+      document.getElementById('notFoundCard').classList.add('show'); 
+    } else { 
+      showResult(data.record); 
+    }
+  } catch(e) {
+    document.getElementById('verifyBtn').disabled = false;
+    clearStates();
+    document.getElementById('errorCard').classList.add('show');
   }
 }
 
-function retryVerify(){
-  document.getElementById('errorCard').classList.remove('show');
-  document.getElementById('certInput').value=_retryId;
-  onInput(); verify();
-}
+function showResult(r) {
+  document.getElementById('resId').textContent = r.certificate_id || '—';
+  
+  const cells = [];
+  if(r.full_name) cells.push(`<div class="cell full-width"><div class="cell-val">${r.full_name}</div><div class="cell-lbl">Recipient Name</div></div>`);
+  if(r.role) cells.push(`<div class="cell"><div class="cell-val">${r.role}</div><div class="cell-lbl">Role / Designation</div></div>`);
+  if(r.department) cells.push(`<div class="cell"><div class="cell-val">${r.department}</div><div class="cell-lbl">Department</div></div>`);
+  if(r.certificate_type) cells.push(`<div class="cell"><div class="cell-val">${r.certificate_type}</div><div class="cell-lbl">Credential Type</div></div>`);
+  if(r.issue_date) cells.push(`<div class="cell"><div class="cell-val">${fmtDate(r.issue_date)}</div><div class="cell-lbl">Date of Issue</div></div>`);
+  
+  document.getElementById('detailGrid').innerHTML = cells.join('');
 
-/* ── STATES ── */
-function showNotFound(id){
-  document.getElementById('nfId').textContent=id;
-  document.getElementById('notFoundCard').classList.add('show');
-}
-function showError(){
-  document.getElementById('errorCard').classList.add('show');
-  toast('Connection error','Could not reach verification server.','error');
-}
-
-function showResult(r){
-  document.getElementById('resultAccent').className='result-accent valid';
-  document.getElementById('resultBadge').className='result-badge valid';
-  document.getElementById('resultBadge').innerHTML='🏅<div class="result-badge-ring"></div>';
-  document.getElementById('resultStatusLbl').className='result-status-lbl valid';
-  document.getElementById('resultStatusLbl').textContent='✅ Verified Authentic';
-  document.getElementById('resultName').textContent=r.full_name||'—';
-  document.getElementById('resultRole').textContent=[r.role,r.department].filter(Boolean).join(' · ')||'—';
-  document.getElementById('resultCertId').textContent=r.certificate_id||'—';
-
-  const chips=[];
-  if(r.certificate_type) chips.push(`<span class="chip chip-p">📜 ${r.certificate_type}</span>`);
-  if(r.category)         chips.push(`<span class="chip chip-n">🏷 ${r.category}</span>`);
-  if(r.work_type)        chips.push(`<span class="chip chip-w">⚡ ${r.work_type}</span>`);
-  if(r.stipend)          chips.push(`<span class="chip chip-s">💰 ${r.stipend}</span>`);
-  document.getElementById('chipsRow').innerHTML=chips.join('');
-
-  const cells=[];
-  if(r.issue_date)      cells.push(dc(fmtDate(r.issue_date),'Issue Date'));
-  if(r.start_date)      cells.push(dc(fmtDate(r.start_date),'Start Date'));
-  if(r.end_date)        cells.push(dc(fmtDate(r.end_date),'End Date'));
-  if(r.department)      cells.push(dc(r.department,'Department'));
-  if(r.role)            cells.push(dc(r.role,'Role'));
-  if(r.certificate_type)cells.push(dc(r.certificate_type,'Type'));
-  if(r.doc_key)         cells.push(dc(r.doc_key,'Document Key'));
-  if(r.certificate_id)  cells.push(dc(r.certificate_id,'Certificate ID'));
-  document.getElementById('detailGrid').innerHTML=cells.join('');
-
-  if(r.signatory_name){
-    document.getElementById('signatorySection').style.display='';
-    document.getElementById('signName').textContent=r.signatory_name;
-    document.getElementById('signRole').textContent=r.signatory_role||'Authorized Signatory';
-    document.getElementById('signAva').textContent=initials(r.signatory_name);
-  }else document.getElementById('signatorySection').style.display='none';
-
-  if(r.description){
-    document.getElementById('descSection').style.display='';
-    document.getElementById('descBlock').textContent=r.description;
-  }else document.getElementById('descSection').style.display='none';
+  const desc = document.getElementById('descBlock');
+  if(r.description) {
+    desc.style.display = 'block';
+    desc.textContent = r.description;
+  } else {
+    desc.style.display = 'none';
+  }
 
   document.getElementById('resultCard').classList.add('show');
-  document.getElementById('resultCard').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-function dc(val,lbl){return `<div class="detail-cell"><div class="detail-val">${val}</div><div class="detail-lbl">${lbl}</div></div>`;}
-function fmtDate(d){if(!d)return'—';try{return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});}catch{return d;}}
-function initials(name){return(name||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0].toUpperCase()).join('');}
-function copyId(){const id=document.getElementById('resultCertId').textContent;navigator.clipboard.writeText(id).then(()=>toast('Copied!',`Certificate ID ${id} copied.`,'success',2500)).catch(()=>toast('Copy failed','Please copy manually.','error'));}
+function fmtDate(d) {
+  if(!d) return '—';
+  try { return new Date(d).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }); } catch { return d; }
+}
 
-/* ── URL PARAM ── */
-(function(){
-  const p=new URLSearchParams(window.location.search);
-  const id=p.get('id')||p.get('cert')||p.get('certificate_id');
-  if(id){document.getElementById('certInput').value=id.toUpperCase();onInput();setTimeout(verify,400);}
+function copyId() {
+  const id = document.getElementById('resId').textContent;
+  navigator.clipboard.writeText(id);
+  const btn = document.getElementById('copyBtn');
+  btn.textContent = "Copied!";
+  setTimeout(() => { btn.textContent = "Copy Certificate ID"; }, 2000);
+}
+
+/* AUTO-RUN FROM QR PARAMS */
+(() => {
+  const p = new URLSearchParams(window.location.search);
+  const id = p.get('id') || p.get('cert') || p.get('certificate_id');
+  if(id) {
+    document.getElementById('certInput').value = id.toUpperCase();
+    onInput();
+    verify();
+  }
 })();
-
-/* prevent devtools */
-document.addEventListener('contextmenu',e=>e.preventDefault());
-document.addEventListener('keydown',e=>{if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&['i','j','c'].includes(e.key.toLowerCase()))||(e.ctrlKey&&['u'].includes(e.key.toLowerCase())))e.preventDefault();});
 </script>
 </body>
 </html>
