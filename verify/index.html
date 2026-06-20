@@ -1,1 +1,93 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store"><meta http-equiv="Pragma" content="no-cache"><title>Certificate Verification — AcademeForge</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f5f7;color:#111;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:16px}.c{background:#fff;border:1px solid #e2e4e9;border-radius:10px;padding:24px 20px;width:100%;max-width:420px;box-shadow:0 1px 6px rgba(0,0,0,.07)}.st{display:none}.st.on{display:block}.sp{width:28px;height:28px;border:3px solid #e2e4e9;border-top-color:#4f46e5;border-radius:50%;animation:sp .6s linear infinite;margin:0 auto 12px}@keyframes sp{to{transform:rotate(360deg)}}.sl{text-align:center;font-size:.85rem;color:#666}.bn{display:flex;align-items:flex-start;gap:11px;padding-bottom:16px;border-bottom:1px solid #e2e4e9;margin-bottom:16px}.ic{font-size:1.7rem;line-height:1}.ht{font-size:1.05rem;font-weight:700}.ok .ht{color:#0a7c4f}.no .ht{color:#c0392b}.wr .ht{color:#b45309}.cid{font-family:ui-monospace,monospace;font-size:.72rem;color:#555;background:#f4f5f7;border:1px solid #e2e4e9;padding:2px 7px;border-radius:4px;margin-top:4px;display:inline-block;word-break:break-all}.gr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}.cl{background:#f9fafb;border:1px solid #e2e4e9;border-radius:7px;padding:10px}.v{font-size:.83rem;font-weight:600;word-break:break-word;line-height:1.4;color:#111}.lb{font-size:.58rem;text-transform:uppercase;letter-spacing:.05em;font-weight:700;color:#999;margin-top:3px}.fw{grid-column:span 2}.hi{border-color:#b7dfca;background:#f0faf5}.msg{font-size:.82rem;color:#555;line-height:1.65;margin-bottom:12px}.msg a{color:#4f46e5;word-break:break-all}.ft{font-size:.62rem;color:#aaa;text-align:center}@media(prefers-color-scheme:dark){body{background:#0c0e14;color:#e8eaf0}.c{background:#131722;border-color:#1e2436;box-shadow:none}.cl{background:#191f30;border-color:#1e2436}.cid{background:#191f30;border-color:#1e2436;color:#9ba3b8}.sp{border-color:#1e2436;border-top-color:#4f46e5}.ok .ht{color:#34d399}.no .ht{color:#f87171}.wr .ht{color:#fbbf24}.v{color:#e8eaf0}.msg{color:#9ba3b8}.msg a{color:#818cf8}.hi{border-color:#1a4d36;background:#0f2d22}.ft{color:#4a5270}body .bn{border-color:#1e2436}body .gr{--x:1}.c .bn{border-bottom-color:#1e2436}}</style></head><body><main class="c"><div id="s0" class="st on" aria-live="polite" aria-busy="true"><div style="padding:20px 0"><div class="sp" role="status" aria-label="Verifying"></div><div class="sl">Verifying certificate…</div></div></div><div id="s1" class="st ok" aria-live="polite" aria-atomic="true"><div class="bn"><div class="ic" aria-hidden="true">✅</div><div><h1 class="ht">Verified Authentic</h1><div class="cid" id="rid"></div></div></div><div class="gr" id="rg"></div><p class="ft">Verified from AcademeForge credential records</p></div><div id="s2" class="st no" aria-live="assertive" aria-atomic="true"><div class="bn"><div class="ic" aria-hidden="true">❌</div><div><h1 class="ht">Certificate Not Found</h1><div class="cid" id="nid"></div></div></div><p class="msg">This certificate ID does not exist in AcademeForge records. For manual verification visit <a href="https://cert.academeforge.in">cert.academeforge.in</a></p><p class="ft">Verified from AcademeForge credential records</p></div><div id="s3" class="st wr" aria-live="assertive" aria-atomic="true"><div class="bn"><div class="ic" aria-hidden="true">⚠️</div><div><h1 class="ht">Service Unavailable</h1></div></div><p class="msg">Verification could not be completed. Please try again shortly or visit <a href="https://cert.academeforge.in">cert.academeforge.in</a></p><p class="ft">Verified from AcademeForge credential records</p></div></main><script>(()=>{const h=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'),fd=s=>{if(!s)return'—';try{const d=new Date(s);return isNaN(d)?'—':d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}catch{return'—'}},sw=i=>{['s0','s1','s2','s3'].forEach(x=>document.getElementById(x).classList.toggle('on',x===i))};(async()=>{const q=new URLSearchParams(location.search),id=(q.get('id')||q.get('cert')||q.get('certificate_id')||'').trim().toUpperCase();if(!id){location.replace('https://cert.academeforge.in');return;}try{const r=await fetch('https://afooyyydhlwngzssgqih.supabase.co/functions/v1/af-certificate-api',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'verify',certificate_id:id})});if(!r.ok){sw('s3');return;}let d;try{d=await r.json()}catch{sw('s3');return;}if(!d||typeof d!=='object'){sw('s3');return;}if(d.success===true&&d.found===true&&d.record&&typeof d.record==='object'){const rec=d.record,fid=rec.certificate_id||id,c=[];document.getElementById('rid').textContent=fid;if(rec.full_name)c.push(`<div class="cl fw"><div class="v">${h(rec.full_name)}</div><div class="lb">Recipient</div></div>`);c.push(`<div class="cl fw"><div class="v">${h(fid)}</div><div class="lb">Certificate ID</div></div>`);if(rec.certificate_type)c.push(`<div class="cl"><div class="v">${h(rec.certificate_type)}</div><div class="lb">Type</div></div>`);if(rec.role)c.push(`<div class="cl"><div class="v">${h(rec.role)}</div><div class="lb">Role</div></div>`);if(rec.department)c.push(`<div class="cl fw"><div class="v">${h(rec.department)}</div><div class="lb">Department</div></div>`);c.push(`<div class="cl"><div class="v">${fd(rec.issue_date)}</div><div class="lb">Issue Date</div></div>`);c.push(`<div class="cl fw hi"><div class="v">${h(new Date().toLocaleString('en-IN'))}</div><div class="lb">Verified On</div></div>`);document.getElementById('rg').innerHTML=c.join('');sw('s1');}else if(d.success===true&&d.found===false){document.getElementById('nid').textContent=id;sw('s2');}else sw('s3');}catch{sw('s3');}})();})();</script></body></html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store"><meta http-equiv="Pragma" content="no-cache"><title>Certificate Verification — AcademeForge</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f5f7;color:#111;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:16px}.c{background:#fff;border:1px solid #e2e4e9;border-radius:10px;padding:24px 20px;width:100%;max-width:420px;box-shadow:0 1px 6px rgba(0,0,0,.07)}.st{display:none}.st.on{display:block}.sp{width:28px;height:28px;border:3px solid #e2e4e9;border-top-color:#4f46e5;border-radius:50%;animation:sp .6s linear infinite;margin:0 auto 12px}@keyframes sp{to{transform:rotate(360deg)}}.sl{text-align:center;font-size:.85rem;color:#666}.bn{display:flex;align-items:flex-start;gap:11px;padding-bottom:16px;border-bottom:1px solid #e2e4e9;margin-bottom:16px}.ic{font-size:1.7rem;line-height:1}.ht{font-size:1.05rem;font-weight:700}.ok .ht{color:#0a7c4f}.no .ht{color:#c0392b}.wr .ht{color:#b45309}.cid{font-family:ui-monospace,monospace;font-size:.72rem;color:#555;background:#f4f5f7;border:1px solid #e2e4e9;padding:2px 7px;border-radius:4px;margin-top:4px;display:inline-block;word-break:break-all}.gr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}.cl{background:#f9fafb;border:1px solid #e2e4e9;border-radius:7px;padding:10px}.v{font-size:.83rem;font-weight:600;word-break:break-word;line-height:1.4;color:#111}.lb{font-size:.58rem;text-transform:uppercase;letter-spacing:.05em;font-weight:700;color:#999;margin-top:3px}.fw{grid-column:span 2}.hi{border-color:#b7dfca;background:#f0faf5}.msg{font-size:.82rem;color:#555;line-height:1.65;margin-bottom:12px}.msg a{color:#4f46e5;word-break:break-all}.ft{font-size:.62rem;color:#aaa;text-align:center}@media(prefers-color-scheme:dark){body{background:#0c0e14;color:#e8eaf0}.c{background:#131722;border-color:#1e2436;box-shadow:none}.cl{background:#191f30;border-color:#1e2436}.cid{background:#191f30;border-color:#1e2436;color:#9ba3b8}.sp{border-color:#1e2436;border-top-color:#4f46e5}.ok .ht{color:#34d399}.no .ht{color:#f87171}.wr .ht{color:#fbbf24}.v{color:#e8eaf0}.msg{color:#9ba3b8}.msg a{color:#818cf8}.hi{border-color:#1a4d36;background:#0f2d22}.ft{color:#4a5270}body .bn{border-color:#1e2436}body .gr{--x:1}.c .bn{border-bottom-color:#1e2436}}</style></head><body><main class="c"><div id="s0" class="st on" aria-live="polite" aria-busy="true"><div style="padding:20px 0"><div class="sp" role="status" aria-label="Verifying"></div><div class="sl">Verifying certificate…</div></div></div><div id="s1" class="st ok" aria-live="polite" aria-atomic="true"><div class="bn"><div class="ic" aria-hidden="true">✅</div><div><h1 class="ht">Verified Authentic</h1><div class="cid" id="rid"></div></div></div><div class="gr" id="rg"></div><p class="ft">Verified from AcademeForge credential records</p></div><div id="s2" class="st no" aria-live="assertive" aria-atomic="true"><div class="bn"><div class="ic" aria-hidden="true">❌</div><div><h1 class="ht">Certificate Not Found</h1><div class="cid" id="nid"></div></div></div><p class="msg">This certificate ID does not exist in AcademeForge records. For manual verification visit <a href="https://cert.academeforge.in">cert.academeforge.in</a></p><p class="ft">Verified from AcademeForge credential records</p></div><div id="s3" class="st wr" aria-live="assertive" aria-atomic="true"><div class="bn"><div class="ic" aria-hidden="true">⚠️</div><div><h1 class="ht">Service Unavailable</h1></div></div><p class="msg">Verification could not be completed. Please try again shortly or visit <a href="https://cert.academeforge.in">cert.academeforge.in</a></p><p class="ft">Verified from AcademeForge credential records</p></div></main><script>(()=>{
+const h=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+const fd=s=>{if(!s)return'—';try{const d=new Date(s);return isNaN(d)?'—':d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}catch{return'—'}};
+const sw=i=>{['s0','s1','s2','s3'].forEach(x=>document.getElementById(x).classList.toggle('on',x===i))};
+
+/* ── Supabase project config (shared across both lookup sources) ── */
+const SB_URL = 'https://afooyyydhlwngzssgqih.supabase.co';
+const SB_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmb295eXlkaGx3bmd6c3NncWloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NDQxMjgsImV4cCI6MjA5NDIyMDEyOH0.KG0XO0oP_2MpewHoIwTtbrKg5FkyOYRUtVzLH1MSJiE';
+const DASH_HDRS = {'Content-Type':'application/json','apikey':SB_ANON_KEY,'Authorization':'Bearer '+SB_ANON_KEY};
+
+/* ── Renders a found certificate into the success view (shared by both sources) ── */
+function renderFound(rec, id){
+  const fid = rec.certificate_id || id, c = [];
+  document.getElementById('rid').textContent = fid;
+  if(rec.full_name) c.push(`<div class="cl fw"><div class="v">${h(rec.full_name)}</div><div class="lb">Recipient</div></div>`);
+  c.push(`<div class="cl fw"><div class="v">${h(fid)}</div><div class="lb">Certificate ID</div></div>`);
+  if(rec.course_title) c.push(`<div class="cl fw"><div class="v">${h(rec.course_title)}</div><div class="lb">Course</div></div>`);
+  if(rec.certificate_type) c.push(`<div class="cl"><div class="v">${h(rec.certificate_type)}</div><div class="lb">Type</div></div>`);
+  if(rec.role) c.push(`<div class="cl"><div class="v">${h(rec.role)}</div><div class="lb">Role</div></div>`);
+  if(rec.department) c.push(`<div class="cl fw"><div class="v">${h(rec.department)}</div><div class="lb">Department</div></div>`);
+  c.push(`<div class="cl"><div class="v">${fd(rec.issue_date)}</div><div class="lb">Issue Date</div></div>`);
+  c.push(`<div class="cl fw hi"><div class="v">${h(new Date().toLocaleString('en-IN'))}</div><div class="lb">Verified On</div></div>`);
+  document.getElementById('rg').innerHTML = c.join('');
+  sw('s1');
+}
+
+/* ── SOURCE A (original/old): af-certificate-api → af_generated_certificates ── */
+async function checkSourceA(id){
+  try{
+    const r = await fetch(SB_URL + '/functions/v1/af-certificate-api', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'verify', certificate_id:id})
+    });
+    if(!r.ok) return {status:'error'};
+    let d;
+    try{ d = await r.json() }catch{ return {status:'error'}; }
+    if(!d || typeof d !== 'object') return {status:'error'};
+    if(d.success===true && d.found===true && d.record && typeof d.record==='object'){
+      return {status:'found', rec:d.record};
+    }
+    if(d.success===true && d.found===false) return {status:'notfound'};
+    return {status:'error'};
+  }catch{ return {status:'error'}; }
+}
+
+/* ── SOURCE B (new): student-dashboard-af → af_student_certificates ── */
+function mapStudentCert(row){
+  return {
+    full_name: row.student_name,
+    certificate_id: row.cert_id,
+    course_title: row.course_title,
+    certificate_type: 'Course Completion Certificate',
+    role: 'Student',
+    department: '',
+    issue_date: row.issued_at
+  };
+}
+async function checkSourceB(id){
+  try{
+    const r = await fetch(SB_URL + '/functions/v1/student-dashboard-af', {
+      method:'POST',
+      headers:DASH_HDRS,
+      body:JSON.stringify({action:'get_certificate', cert_id:id})
+    });
+    let d = null;
+    try{ d = await r.json() }catch{}
+    if(d && d.ok===true && d.certificate) return {status:'found', rec:mapStudentCert(d.certificate)};
+    if(r.status===404) return {status:'notfound'};
+    return {status:'error'};
+  }catch{ return {status:'error'}; }
+}
+
+/* ── MAIN: check both sources, old path first, new path as fallback ── */
+(async()=>{
+  const q = new URLSearchParams(location.search);
+  const id = (q.get('id') || q.get('cert') || q.get('certificate_id') || '').trim().toUpperCase();
+  if(!id){ location.replace('https://cert.academeforge.in'); return; }
+
+  const a = await checkSourceA(id);
+  if(a.status === 'found'){ renderFound(a.rec, id); return; }
+
+  const b = await checkSourceB(id);
+  if(b.status === 'found'){ renderFound(b.rec, id); return; }
+
+  if(a.status === 'notfound' || b.status === 'notfound'){
+    document.getElementById('nid').textContent = id;
+    sw('s2');
+  } else {
+    sw('s3');
+  }
+})();
+})();</script></body></html>
